@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: db5bb787e36a18345a3d4998b4207eb0
+timeCreated: 1494246083
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Blogger Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4c6cfe003f92f9140bae66d1c96729a7, type: 3}
+  - {fileID: 12800000, guid: 7693f070d0d999d439d98ad83c71cfa6, type: 3}
+  - {fileID: 12800000, guid: 9f7676c0fc2fe6f498c92bc9a8abacd3, type: 3}
+  - {fileID: 12800000, guid: 78a26885bede4364fbfadf90c7e352ff, type: 3}
+  - {fileID: 12800000, guid: 0da8e1061bf8dec41bd8cb0a68e376af, type: 3}
+  - {fileID: 12800000, guid: bc4b05e8c22fbe9419217649832c5606, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
