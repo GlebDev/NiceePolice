@@ -38,6 +38,9 @@ public class Interact : MonoBehaviour {
 		Take = false;
 		TakeEnabled=true;
 		Deceleration = DecelerationInspector;
+		WalkSpeed = transform.root.GetComponent<FirstPersonController> ().m_WalkSpeed;
+		RunSpeed = transform.root.GetComponent<FirstPersonController> ().m_RunSpeed;
+		JumpSpeed = transform.root.GetComponent<FirstPersonController> ().m_JumpSpeed;
 	}
 	
 	// Update is called once per frame
@@ -87,9 +90,7 @@ public class Interact : MonoBehaviour {
 		body.GetComponent<Animator> ().Play("bangle");
 		transform.root.GetComponent<ItemManager> ().HideItems = true;
 		_interfaceManager.InterfaceSwitch_enabled = false;
-		WalkSpeed = transform.root.GetComponent<FirstPersonController> ().m_WalkSpeed;
-		RunSpeed = transform.root.GetComponent<FirstPersonController> ().m_RunSpeed;
-		JumpSpeed = transform.root.GetComponent<FirstPersonController> ().m_JumpSpeed;
+
 		transform.root.GetComponent<FirstPersonController> ().m_WalkSpeed *= _deceleration;
 		transform.root.GetComponent<FirstPersonController> ().m_RunSpeed *= _deceleration;
 		transform.root.GetComponent<FirstPersonController> ().m_JumpSpeed *= _deceleration;
@@ -107,7 +108,7 @@ public class Interact : MonoBehaviour {
 		IsHaveHangingBody = false;
 		TakeEnabled = true;
 		transform.root.GetComponent<ItemManager> ().HideItems = false;
-		transform.root.GetComponent<InterfaceManager> ().InterfaceSwitch_enabled = true;
+		_interfaceManager.InterfaceSwitch_enabled = true;
 		transform.root.GetComponent<FirstPersonController> ().m_WalkSpeed = WalkSpeed;
 		transform.root.GetComponent<FirstPersonController> ().m_RunSpeed  = RunSpeed;
 		transform.root.GetComponent<FirstPersonController> ().m_JumpSpeed = JumpSpeed;

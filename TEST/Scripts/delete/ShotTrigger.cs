@@ -34,7 +34,7 @@ public class ShotTrigger : MonoBehaviour {
 			}
 
 			if (other.transform.GetComponent<InputDamage> ()) {
-				other.transform.GetComponent<InputDamage> ().Hit( Mathf.RoundToInt(damage * GameObject.Find ("GameSettings").GetComponent<GameSettings> ().MeleeWeaponDamageMultipler));
+				other.transform.GetComponent<InputDamage> ().Hit( Mathf.RoundToInt(damage * GameObject.Find ("GameSettings").GetComponent<GameSettings> ().MeleeWeaponDamageMultiplier));
 
 				if (other.transform.root.GetComponent<HomelessAI> ()) {
 					other.transform.root.GetComponent<HomelessAI> ().IsKick = true;

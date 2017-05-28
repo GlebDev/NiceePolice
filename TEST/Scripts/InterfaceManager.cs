@@ -6,12 +6,14 @@ public class InterfaceManager : MonoBehaviour {
 
 	public InventoryPanel CharacterInventoryPanel;
 	public HotKeyPanel CharacterHotKeyPanelPanel;
-	public MoneyPanel _moneyPanel;
+	//public MoneyPanel _moneyPanel;
 	public Transform _AIM; 
 	public bool InterfaceSwitch_enabled;
 	public FirstPersonController CharacterFPC;
 	public RPB EnergyProgressBar,BackGroundEnergyProgressBar;
 	public float EnergyProgressBarDyingDelay;
+	public TextPanel _timePanel,_moneyPanel;
+	[SerializeField]private CharacterStats _characterStats;
 
 	[SerializeField]private float _curEnergyPBTime;
 	private bool CurVisible;
@@ -43,8 +45,9 @@ public class InterfaceManager : MonoBehaviour {
 		}
 		CharacterInventoryPanel.gameObject.SetActive (flag);
 		CharacterFPC.m_MouseLook.SetCursorLock(!flag);
+		_timePanel.gameObject.SetActive (flag);
 		_moneyPanel.gameObject.SetActive (flag);
-		_moneyPanel.Redraw ();
+		SetMoneyPanel("MONEY: " + _characterStats.SumOfMoney.ToString());
 		_AIM.gameObject.SetActive (!flag);
 
 		foreach (HotKeySlot slot in CharacterHotKeyPanelPanel.transform.GetComponentsInChildren<HotKeySlot>())
@@ -59,5 +62,13 @@ public class InterfaceManager : MonoBehaviour {
 		BackGroundEnergyProgressBar.SetTransparent(1);
 		EnergyProgressBar.SetProgress (progress);
 		_curEnergyPBTime = 0;
+	}
+
+	public void SetTimePanel(string timeStr){
+		_timePanel.Redraw (timeStr);
+	}
+
+	public void SetMoneyPanel(string moneyStr){
+		_moneyPanel.Redraw (moneyStr);
 	}
 }

@@ -11,8 +11,11 @@ public class GameSettings : MonoBehaviour{
 	public int AmountPenalty;
 	public List<Transform> TargetPoints = new List<Transform>();
 	public List<Transform> EscapePoints = new List<Transform>();
-	public float MeleeWeaponDamageMultipler;
-	public float MeleeRangeDamageMultipler;
+	public float MeleeWeaponDamageMultiplier;
+	public float MeleeRangeDamageMultiplier;
 	public int MaxConsoleLineCount;
+	public int StartTimeHours;
+	public int StartDayTime,StartNightTime;
+
 
 }

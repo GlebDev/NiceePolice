@@ -1,8 +1,11 @@
 using System;
 using UnityEngine;
+using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+
+
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -10,7 +13,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
-        [SerializeField] private bool m_IsWalking;
+		[SerializeField] private bool m_IsWalking,m_IsRuning;
         [SerializeField] public float m_WalkSpeed;
 		[SerializeField] public float m_RunSpeed;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
@@ -29,7 +32,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_LandSound;  
 		[SerializeField] public bool LockCursor;
 		[SerializeField] public float SquatHeight;
+		public CharacterStats stats;
+		public float EDifference,ESum;
 
+	
+		private InterfaceManager IM;
+		private float OriginalRunSpeed;
         private Camera m_Camera;
         private bool m_Jump;
 		private bool m_Squat;
@@ -61,6 +69,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
 			LockCursor=true;
+			IM = GameObject.Find ("Interface").transform.GetComponent<InterfaceManager> ();
         }
 
 
@@ -228,6 +237,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+			m_IsRuning = Input.GetKey(KeyCode.LeftShift) && (horizontal!=0 || vertical!=0);
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
@@ -239,14 +249,39 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Input.Normalize();
             }
 
-            // handle speed change to give an fov kick
-            // only if the player is going to a run, is running and the fovkick is to be used
-            if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
-            {
-                StopAllCoroutines();
-                StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
-            }
-        }
+            
+
+			if (m_IsRuning) {
+				if (stats.CurEnergy > 0) {
+					stats.CurEnergy -= EDifference;
+					IM.SetEnergyProgress ( stats.CurEnergy/stats.MaxEnergy);
+
+					//m_RunSpeed = OriginalRunSpeed;
+				} else {
+					m_IsRuning = false;
+					m_IsWalking = true;
+					speed = m_WalkSpeed;
+					//m_RunSpeed = m_WalkSpeed;
+				}
+			} else if(stats.CurEnergy != stats.MaxEnergy){
+				if (stats.CurEnergy < stats.MaxEnergy) {
+					stats.CurEnergy += ESum;
+					IM.SetEnergyProgress ( stats.CurEnergy/stats.MaxEnergy);
+				} else {
+					stats.CurEnergy = stats.MaxEnergy;
+					IM.SetEnergyProgress ( stats.CurEnergy/stats.MaxEnergy);
+				}
+			}
+
+			// handle speed change to give an fov kick
+			// only if the player is going to a run, is running and the fovkick is to be used
+			if (m_IsWalking != waswalking && m_UseFovKick && m_CharacterController.velocity.sqrMagnitude > 0)
+			{
+				StopAllCoroutines();
+				StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
+			}
+		}
+        
 
 
         private void RotateView()

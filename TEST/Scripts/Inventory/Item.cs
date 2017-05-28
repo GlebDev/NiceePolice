@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Item: MonoBehaviour
-{
+public class Item : MonoBehaviour {
 	public string Name;
 	[TextArea]public string description;
 	public Texture Image;
